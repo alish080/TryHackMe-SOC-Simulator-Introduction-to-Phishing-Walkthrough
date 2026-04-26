@@ -11,8 +11,9 @@ I will also be creating a video explanation for this walkthrough soon.
 **Walkthrough video :        **
 
 ---
-###Contact
+### Contact           
 learningvai6@gmail.com
---
+
+---
 ### Author  
 Alish

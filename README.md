@@ -8,7 +8,7 @@ This walkthrough covers the key concepts and steps in a simple and beginner-frie
 
 I will also be creating a video explanation for this walkthrough soon.
 
-** Walkthrough video : https://youtu.be/benJfZgSE-w **
+**Walkthrough video : https://youtu.be/benJfZgSE-w**
 
 ---
 ### Contact           

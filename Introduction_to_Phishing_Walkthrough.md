@@ -18,7 +18,7 @@ Now after revewing the description of the alert, we will take the owenrship of t
 
 Now we will investigate the domain and the URL as the alert was triggered bacause the email contained the external URL link,
 We will see domain at SIEM, Search  `j.garcia@thetrydaily.thm` at SIEM we will get 4 events which if we see carefully the interaction bettwen emails and the link was not clicked by the recipeint; inorder to conform our guess let's search the domain and URL at online sandboxes like **VirusTotal** & **AnyRun**
-![j.garcia@thetrydaily.thm](SOCsimualtor/hr3.img)
+![j.garcia@thetrydaily.thm](SOCsimualtor/hr3.png)
 
 
 The domain and the URL looks fine so this must be false positive

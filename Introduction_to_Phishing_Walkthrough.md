@@ -1,90 +1,116 @@
 ### Introduction to Phishing 
 ---
 
-**Starting my Investigation**
-![Dashboard](SOCsimulator/first.png)
-The first thing we notice after sometimes are the **5 alerts** in total (4 medium phishing and one higher-severity firewall alert)
+## **Starting my Investigation**
 
-> While we should start with the higher severity alert, we will start from the phishing alert,
+![Dashboard](SOCsimulator/SOCsimulator/first.png)
 
----
+The first thing we notice is that there are **5 alerts** in total (4 medium phishing alerts and one higher-severity firewall alert).
 
-*** First Alert-8814 Inbound Email Containing Suspicious External Link***
-
-See the content and the description of the problem first ,
-![1st Alert](SOCsimulator/hr1.png)
-Now after revewing the description of the alert, we will take the owenrship of the alert
-![owenrship of the alert](SOCsimulator/hr2.png)
-
-Now we will investigate the domain and the URL as the alert was triggered bacause the email contained the external URL link,
-We will see domain at SIEM, Search  `j.garcia@thetrydaily.thm` at SIEM we will get 4 events which if we see carefully the interaction bettwen emails and the link was not clicked by the recipeint; inorder to conform our guess let's search the domain and URL at online sandboxes like **VirusTotal** & **AnyRun**
-![j.garcia@thetrydaily.thm](SOCsimualtor/hr3.png)
-
-
-The domain and the URL looks fine so this must be false positive
-![Report of 1st](SOCsimulator/hr4.png)
+> While we should ideally start with the higher severity alert, we will begin with the phishing alerts.
 
 ---
 
-*** Second Alert-8816 – Access to Blacklisted External URL Blocked by Firewall***
+## **First Alert – 8814: Inbound Email Containing Suspicious External Link**
 
-This was triggerd when the user attempted to acces the external link which is listed in organization's balcklist, we will investigate further as we will see first did the firewall blocked or denied 
+First, we review the content and description of the alert:
 
-![2nd alert](SOCsimulator/firewall1.png) 
+![1st Alert](SOCsimulator/SOCsimulator/hr1.png)
 
-Now, let's see if the link was blocked or accesed ny firewall
+After reviewing the alert, we take ownership of it:
 
-![search the link at SIEM](SOCsimulator/firewall2.png)
+![Ownership of the alert](SOCsimulator/SOCsimulator/hr2.png)
 
-As we can see the requested was blocked by the firewall
+Now, we investigate the domain and URL since the alert was triggered due to an external link in the email.
 
-So this is **true postive** even though the firewall blocked it the user tried to acces the malicous URl which is balcklisted by organization
+We search for `j.garcia@thetrydaily.thm` in the SIEM and find 4 events. Upon careful inspection, we see that the recipient **did not click the link**.
 
-![2nd Report](SOCsimulator/firewall3.png)
+To confirm this, we further analyze the domain and URL using online sandboxes such as **VirusTotal** and **AnyRun**:
 
-Lately this does't require further escalation, as firewall successfully prevenetd any compromise.
+![SIEM Investigation](SOCsimulator/SOCsimulator/hr3.png)
 
----
+The domain and URL appear clean, so this is likely a **false positive**.
 
-*** Third Alert-8817 – Inbound Email Containing Suspicious External Link**
-
-As we read through the description we can tell the sender domain is sketcy and with the external URL link in the email
-
-![3rd alert](SOCsimulator/microsoft1.png)
-
-There is a high chance this is a phishing email trying to impersonate as a microsoft judt looking at a domain and tying to create false felling of urgency, NOw we will see first at splunk if the recipient had clicked the link ot not
-
-![no-reply@m1crosoftsupport.co](SOCsimulator/micosoft2.png)
-
-The log  show's that the recipient has not clicked the link yet this is a good sign becasue this means he and the system has not been compromised 
-
-So, this alert is **true positive** the user has not clciked the lick so it may or may not require further escalation 
-
-![3rd Report](SOCsimulator/microsoft3.png)
-
-The recommendation would be a change in the user credentaial and user traning along with the blocking if the domain via firewall and informing the recipient about the phishing email
+![Report of 1st](SOCsimulator/SOCsimulator/hr4.png)
 
 ---
 
-*** Forth Alert-8815 – Inbound Email Containing Suspicious External Link***
+## **Second Alert – 8816: Access to Blacklisted External URL Blocked by Firewall**
 
-Firstly,the name of the sender domain (urgents@amazon.biz) is not a legitimate one.Secondly,it creates urgency(“package will be returned within 48 hours”), and lastly uses a shortened link (bit.ly) to mask the real destination.
+This alert was triggered when a user attempted to access a URL that is on the organization's blacklist.
 
-![4th alert](SOCsimulator/amz1.png)
+![2nd Alert](SOCsimulator/SOCsimulator/firewall1.png)
 
-Let's search in our SIEM if recipient has chlicked the link or not 
+Now, we verify whether the firewall blocked or allowed the request:
 
-![urgents@amazon.biz](SOCsimulator/amz2.png)
+![SIEM Search](SOCsimulator/SOCsimulator/firewall2.png)
 
-We can see in the log of splunk that the user has not clicked the link meaning the system hasn't been compromised 
+The logs clearly show that the request was **blocked by the firewall**.
 
-So this is true postive that needs further escalation or not casue the user has not clicked the link and the system is not compromised .We should block the suspicious domain and URL and inform the recipient to not click any links from this sender.
+Therefore, this is a **true positive**—the user attempted to access a malicious URL, but the firewall successfully blocked it.
 
-![4th report](SOCsimulator/amz3.png)
+![2nd Report](SOCsimulator/SOCsimulator/firewall3.png)
 
-### We are safe…(until the next alert)
-
-![complete](SOCsimulator/last.png)
+This does not require further escalation since the firewall prevented any compromise.
 
 ---
-***Alish***  
+
+## **Third Alert – 8817: Inbound Email Containing Suspicious External Link**
+
+From the alert description, we can see that the sender domain looks suspicious and includes an external link.
+
+![3rd Alert](SOCsimulator/SOCsimulator/microsoft1.png)
+
+This appears to be a phishing attempt impersonating Microsoft, creating urgency and using a deceptive domain.
+
+Next, we check in the SIEM (Splunk) whether the user clicked the link:
+
+![SIEM Check](SOCsimulator/SOCsimulator/microsoft2.png)
+
+The logs show that the recipient **did not click the link**, which is a good sign.
+
+So, this is a **true positive**, but no compromise occurred.
+
+![3rd Report](SOCsimulator/SOCsimulator/microsoft3.png)
+
+### Recommendation:
+- Reset user credentials  
+- Provide user awareness training  
+- Block the malicious domain via firewall  
+- Inform the recipient about the phishing attempt  
+
+---
+
+## **Fourth Alert – 8815: Inbound Email Containing Suspicious External Link**
+
+This email has several red flags:
+- The sender domain (`urgents@amazon.biz`) is not legitimate  
+- It creates urgency (“package will be returned within 48 hours”)  
+- It uses a shortened link (bit.ly) to hide the destination  
+
+![4th Alert](SOCsimulator/SOCsimulator/amz1.png)
+
+We check in the SIEM whether the user clicked the link:
+
+![SIEM Check](SOCsimulator/SOCsimulator/amz2.png)
+
+The logs show that the user **did not click the link**, meaning no compromise occurred.
+
+This is a **true positive**, but does not require escalation.
+
+![4th Report](SOCsimulator/SOCsimulator/amz3.png)
+
+### Action:
+- Block the domain and URL  
+- Notify the user  
+- Reinforce phishing awareness  
+
+---
+
+## **We are safe… (until the next alert)**
+
+![Complete](SOCsimulator/SOCsimulator/last.png)
+
+---
+
+***Alish***

@@ -3,7 +3,7 @@
 
 ## **Starting my Investigation**
 
-![Dashboard](SOCsimulator/first.png)
+![Dashboard](first.png)
 
 The first thing we notice is that there are **5 alerts** in total (4 medium phishing alerts and one higher-severity firewall alert).
 
@@ -15,11 +15,11 @@ The first thing we notice is that there are **5 alerts** in total (4 medium phis
 
 First, we review the content and description of the alert:
 
-![1st Alert](SOCsimulator/hr1.png)
+![1st Alert](hr1.png)
 
 After reviewing the alert, we take ownership of it:
 
-![Ownership of the alert](SOCsimulator/hr2.png)
+![Ownership of the alert](hr2.png)
 
 Now, we investigate the domain and URL since the alert was triggered due to an external link in the email.
 
@@ -27,11 +27,11 @@ We search for `j.garcia@thetrydaily.thm` in the SIEM and find 4 events. Upon car
 
 To confirm this, we further analyze the domain and URL using online sandboxes such as **VirusTotal** and **AnyRun**:
 
-![SIEM Investigation](SOCsimulator/hr3.png)
+![SIEM Investigation](hr3.png)
 
 The domain and URL appear clean, so this is likely a **false positive**.
 
-![Report of 1st](SOCsimulator/hr4.png)
+![Report of 1st](hr4.png)
 
 ---
 
@@ -39,17 +39,17 @@ The domain and URL appear clean, so this is likely a **false positive**.
 
 This alert was triggered when a user attempted to access a URL that is on the organization's blacklist.
 
-![2nd Alert](SOCsimulator/firewall1.png)
+![2nd Alert](firewall1.png)
 
 Now, we verify whether the firewall blocked or allowed the request:
 
-![SIEM Search](SOCsimulator/firewall2.png)
+![SIEM Search](firewall2.png)
 
 The logs clearly show that the request was **blocked by the firewall**.
 
 Therefore, this is a **true positive**—the user attempted to access a malicious URL, but the firewall successfully blocked it.
 
-![2nd Report](SOCsimulator/firewall3.png)
+![2nd Report](firewall3.png)
 
 This does not require further escalation since the firewall prevented any compromise.
 
@@ -59,19 +59,19 @@ This does not require further escalation since the firewall prevented any compro
 
 From the alert description, we can see that the sender domain looks suspicious and includes an external link.
 
-![3rd Alert](SOCsimulator/microsoft1.png)
+![3rd Alert](microsoft1.png)
 
 This appears to be a phishing attempt impersonating Microsoft, creating urgency and using a deceptive domain.
 
 Next, we check in the SIEM (Splunk) whether the user clicked the link:
 
-![SIEM Check](SOCsimulator/microsoft2.png)
+![SIEM Check](microsoft2.png)
 
 The logs show that the recipient **did not click the link**, which is a good sign.
 
 So, this is a **true positive**, but no compromise occurred.
 
-![3rd Report](SOCsimulator/microsoft3.png)
+![3rd Report]microsoft3.png)
 
 ### Recommendation:
 - Reset user credentials  
@@ -88,17 +88,17 @@ This email has several red flags:
 - It creates urgency (“package will be returned within 48 hours”)  
 - It uses a shortened link (bit.ly) to hide the destination  
 
-![4th Alert](SOCsimulator/amz1.png)
+![4th Alert](amz1.png)
 
 We check in the SIEM whether the user clicked the link:
 
-![SIEM Check](SOCsimulator/amz2.png)
+![SIEM Check](amz2.png)
 
 The logs show that the user **did not click the link**, meaning no compromise occurred.
 
 This is a **true positive**, but does not require escalation.
 
-![4th Report](SOCsimulator/amz3.png)
+![4th Report](amz3.png)
 
 ### Action:
 - Block the domain and URL  
@@ -109,7 +109,7 @@ This is a **true positive**, but does not require escalation.
 
 ## **We are safe… (until the next alert)**
 
-![Complete](SOCsimulator/last.png)
+![Complete](last.png)
 
 ---
 
